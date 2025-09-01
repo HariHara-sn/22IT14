@@ -11,9 +11,6 @@
 
 ## Installation & Setup
 
-### Prerequisites
-- Node.js (version 16 or higher)
-- npm or yarn package manager
 
 ### Setup Steps
 
@@ -36,12 +33,3 @@
    ```bash
    npm run dev
    ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:5173` (or the port shown in your terminal)
-
-### Build for Production
-```bash
-npm run build
-npm run preview
-```
