@@ -1,34 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import './App.css'
+import UrlShortener from './components/UrlShortener'
+import Analytics from './components/Analytics'
+import RedirectHandler from './components/RedirectHandler'
+import Navigation from './components/Navigation'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [urls, setUrls] = useState([])
+  const [activeTab, setActiveTab] = useState('shortener')
+
+  useEffect(() => {
+    const savedUrls = localStorage.getItem('shortenedUrls')
+    if (savedUrls) {
+      setUrls(JSON.parse(savedUrls))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('shortenedUrls', JSON.stringify(urls))
+  }, [urls])
+
+  const addUrl = (newUrl) => {
+    setUrls(prev => [newUrl, ...prev])
+  }
+
+  const updateUrlClicks = (shortCode) => {
+    setUrls(prev => prev.map(url => 
+      url.shortCode === shortCode 
+        ? { ...url, clicks: url.clicks + 1, lastAccessed: new Date().toISOString() }
+        : url
+    ))
+  }
+
+  const isShortCodeUnique = (shortCode) => {
+    return !urls.some(url => url.shortCode === shortCode)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+        
+        <div className="container mx-auto px-4 py-8">
+          <Routes>
+            <Route path="/" element={
+              <div>
+                {activeTab === 'shortener' && (
+                  <UrlShortener 
+                    addUrl={addUrl} 
+                    isShortCodeUnique={isShortCodeUnique}
+                  />
+                )}
+                {activeTab === 'analytics' && (
+                  <Analytics urls={urls} />
+                )}
+              </div>
+            } />
+            <Route path="/:shortCode" element={
+              <RedirectHandler 
+                urls={urls} 
+                updateUrlClicks={updateUrlClicks}
+              />
+            } />
+          </Routes>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Router>
   )
 }
 

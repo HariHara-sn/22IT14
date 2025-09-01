@@ -1,12 +1,47 @@
-# React + Vite
+# URL Shortener Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core Functionality
+- **URL Shortening**: Convert long URLs to short, manageable links
+- **Custom Shortcodes**: Optionally provide custom shortcodes (3-20 characters, alphanumeric)
+- **Auto-generation**: Automatic unique shortcode generation if none provided
+- **Validity Period**: Configurable expiration time (default: 30 minutes)
+- **Uniqueness**: All generated short links are guaranteed to be unique
 
-## Expanding the ESLint configuration
+## Installation & Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Node.js (version 16 or higher)
+- npm or yarn package manager
+
+### Setup Steps
+
+1. **Clone or download the project**
+   ```bash
+   # If cloning from a repository
+   git clone <repository-url>
+   cd url-shortener
+   
+   # Or navigate to your project directory
+   cd your-project-directory
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:5173` (or the port shown in your terminal)
+
+### Build for Production
+```bash
+npm run build
+npm run preview
+```
